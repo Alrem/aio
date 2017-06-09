@@ -1,6 +1,0 @@
-<network>
-  <name>mcp_ext</name>
-  <bridge name="mcp_ext"/>
-  <forward mode="nat"/>
-  <ip address="10.18.0.1" netmask="255.255.255.0" />
-</network>
