@@ -1,0 +1,20 @@
+---
+  - name: Simple check openstack
+    hosts: aio
+    gather_facts: no
+    tasks:
+
+      - name: Download cirros
+        get_url:
+          url: http://download.cirros-cloud.net/0.3.5/cirros-0.3.5-x86_64-disk.img
+          dest: /root/cirros-0.3.5-x86_64-disk.img
+        become: yes
+        
+      - name: upload check_os.sh
+        copy:
+          src: ./check_os.sh
+          dest: /root/check_os.sh
+          owner: root
+          group: root
+          mode: 0744
+        become: yes

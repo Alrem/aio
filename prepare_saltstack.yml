@@ -1,0 +1,137 @@
+---
+
+  - name: Prepare saltstack
+    hosts: aio
+    gather_facts: no
+    tasks:
+
+      - name: Add python
+        raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+        become: yes
+
+      - name: Add key
+        apt_key:
+          url: "https://repo.saltstack.com/apt/ubuntu/16.04/amd64/latest/SALTSTACK-GPG-KEY.pub"
+          state: present
+        become: yes
+
+      - name: Add ipv4 resolve
+        lineinfile: 
+          line: "127.0.0.1 mcp all01"
+          dest: /etc/hosts
+          state: present
+          backup: yes
+        become: yes
+          
+      - name: Add ipv6 resolve
+        lineinfile: 
+          line: "::1 all01"
+          dest: /etc/hosts
+          state: present
+          backup: yes
+        become: yes
+
+      - name: add repository
+        apt_repository:
+          repo: deb http://repo.saltstack.com/apt/ubuntu/16.04/amd64/latest xenial main
+          state: present
+        become: yes
+
+      - name: Install saltstack
+        apt: name={{ item }} state=present update_cache=yes
+        with_items:
+          - salt-master
+          - salt-minion
+          - reclass
+          - make
+        become: yes
+        notify: 
+          - remove minion_id
+          - remove minion_master
+          - Add id info
+          - Add master info
+          - Check master.d folder
+          - Check reclass folder
+          - copy master.conf
+          - copy reclass-config.yml
+          - restart salt-master
+          - restart salt-minion
+
+    handlers:
+
+      - name: remove minion_id
+        file:
+          path: /etc/salt/minion_id
+          state: absent
+        become: yes
+
+      - name: remove minion_master
+        file:
+          path: /etc/salt/pki/minion/minion_master.pub
+          state: absent
+        become: yes
+
+      - name: Add id info
+        lineinfile: 
+          line: "id: all01.local"
+          dest: /etc/salt/minion
+          state: present
+          backup: yes
+        become: yes
+
+      - name: Add master info
+        lineinfile: 
+          line: "master: localhost"
+          dest: /etc/salt/minion
+          state: present
+          backup: yes
+        become: yes
+
+      - name: Check master.d folder
+        file:
+          path: /etc/salt/master.d
+          state: directory
+          owner: root
+          group: root
+          mode: 0755
+        become: yes
+
+
+      - name: Check reclass folder
+        file:
+          path: /etc/reclass
+          state: directory
+          owner: root
+          group: root
+          mode: 0755
+        become: yes
+
+      - name: copy master.conf
+        copy:
+          src: master.conf
+          dest: /etc/salt/master.d/master.conf
+          owner: root
+          group: root
+          mode: 0644
+        become: yes
+
+      - name: copy reclass-config.yml
+        copy:
+          src: reclass-config.yml
+          dest: /etc/reclass/reclass-config.yml
+          owner: root
+          group: root
+          mode: 0644
+        become: yes
+      
+      - name: restart salt-master
+        service:
+          name: salt-master
+          state: restarted
+        become: yes
+
+      - name: restart salt-minion
+        service:
+          name: salt-minion
+          state: restarted
+        become: yes

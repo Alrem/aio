@@ -1,0 +1,21 @@
+---
+
+  - name: Prepare reclass
+    hosts: aio
+    gather_facts: no
+    tasks:
+
+      - name: upload reclass_prepare.sh
+        copy:
+          src: ./reclass_prepare.sh
+          dest: /root/reclass_prepare.sh
+          owner: root
+          group: root
+          mode: 0744
+        become: yes
+        notify: run reclass_prepare.sh
+
+    handlers:
+      - name: run reclass_prepare.sh
+        command: /root/reclass_prepare.sh
+        become: yes

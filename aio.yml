@@ -1,0 +1,7 @@
+---
+
+  - include: prepare_saltstack.yml
+  - include: prepare_reclass.yml
+  - include: install_mcp.yml
+  - include: check_openstack.yml
+  - include: install_docker.yml
