@@ -4,10 +4,44 @@
     gather_facts: no
     tasks:
 
-      - name: reconfigure neutron
+      - name: reconfigure openvswitch_agent
         lineinfile:
           path: /etc/neutron/plugins/ml2/openvswitch_agent.ini
           line: 'enable_distributed_routing = False'
+          state: present
+        become: yes
+        notify: neutron restart
+
+      - name: disable router_distributed
+        lineinfile:
+          path: /etc/neutron/neutron.conf
+          line: 'router_distributed = false'
+          regexp: '^router_distributed'
+          state: present
+        become: yes
+        notify: neutron restart
+
+      - name: enable router_auto_schedule
+        lineinfile:
+          path: /etc/neutron/neutron.conf
+          line: 'router_auto_schedule = true'
+          state: present
+        become: yes
+        notify: neutron restart
+
+      - name: remove external_network_bridge
+        lineinfile:
+          path: /etc/neutron/l3_agent.ini
+          line: 'external_network_bridge ='
+          state: absent
+        become: yes
+        notify: neutron restart
+
+      - name: change flat_networks
+        lineinfile:
+          path: /etc/neutron/plugins/ml2/ml2_conf.ini
+          line: 'flat_networks = physnet1'
+          regexp: '^flat_networks'
           state: present
         become: yes
         notify: neutron restart
@@ -21,8 +55,9 @@
       - name: enable ssh password authentication
         lineinfile:
           path: /etc/ssh/sshd_config
-          regexp: '^PasswordAuthentication no'
+          regexp: '^PasswordAuthentication'
           line: 'PasswordAuthentication yes'
+          state: present
         become: yes
         notify: sshd restart
 

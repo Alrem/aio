@@ -18,3 +18,9 @@
           group: root
           mode: 0744
         become: yes
+    #     notify: run check_os
+
+    # become:
+    #   - name: run check_os
+    #     command: /root/check_os.sh
+    #     become: yes

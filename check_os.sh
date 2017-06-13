@@ -3,6 +3,10 @@ set -x
 
 source /root/keystonercv3
 
+ifconfig ens3 0.0.0.0
+ovs-vsctl add-port br-floating ens3
+ifconfig br-floating 10.18.0.2/24
+
 glance image-create \
   --name cirros \
   --visibility public \
