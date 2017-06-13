@@ -13,7 +13,6 @@
       - name: debug-message for state salt
         debug:
           msg: "{{ saltout.stdout_lines[-7:] }}"
-        
 
       - name: state linux,ntp,openssh
         command: salt-call --hard-crash state.apply linux,ntp,openssh
@@ -73,7 +72,11 @@
         debug:
           msg: "{{ saltout.stdout_lines[-7:] }}"
 
-      - name: state neutron
+      - name: state neutron 1
+        command: salt-call --hard-crash state.apply neutron
+        become: yes
+
+      - name: state neutron 2
         command: salt-call --hard-crash state.apply neutron
         become: yes
         register: saltout
@@ -124,7 +127,7 @@
         command: salt-call --hard-crash state.apply horizon
         register: result
         become: yes
-        
+
       - name: debug-message for state horizon
         debug:
           msg: "{{ saltout.stdout_lines[-7:] }}"
@@ -137,13 +140,13 @@
           state: restarted
         with_items:
           - nova-api
-          - nova-compute          
-          - nova-consoleauth      
-          - nova-scheduler        
-          - nova-xenvncproxy      
-          - nova-cert             
-          - nova-conductor        
-          - nova-novncproxy       
-          - nova-spicehtml5proxy  
+          - nova-compute
+          - nova-consoleauth
+          - nova-scheduler
+          - nova-xenvncproxy
+          - nova-cert
+          - nova-conductor
+          - nova-novncproxy
+          - nova-spicehtml5proxy
 
         become: yes
