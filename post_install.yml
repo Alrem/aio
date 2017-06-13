@@ -1,0 +1,41 @@
+---
+  - name: Post install settings
+    hosts: aio
+    gather_facts: no
+    tasks:
+
+      - name: reconfigure neutron
+        lineinfile:
+          path: /etc/neutron/plugins/ml2/openvswitch_agent.ini
+          line: 'enable_distributed_routing = False'
+          state: present
+        become: yes
+        notify: neutron restart
+
+      - name: set pass ubuntu for user ubuntu
+        user:
+          name: ubuntu
+          password: $6$IqPXCWT8$NRem4MazUQzB7UiIH8Smkm9.x8L7gZ/ALuAxyi3n/eCPnpEslWwUMb2BFn2Rva8jKmV0FRWIHXO8buYwQawub1
+        become: yes
+
+      - name: enable ssh password authentication
+        lineinfile:
+          path: /etc/ssh/sshd_config
+          regexp: '^PasswordAuthentication no'
+          line: 'PasswordAuthentication yes'
+        become: yes
+        notify: sshd restart
+
+    handlers:
+
+      - name: sshd restart
+        service:
+          name: ssh
+          state: restarted
+        become: yes
+
+      - name: neutron restart
+        service:
+          name: "neutron-*"
+          state: restarted
+        become: yes

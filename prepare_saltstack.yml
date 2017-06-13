@@ -41,19 +41,7 @@
         apt: update_cache=yes upgrade=dist
         become: yes
 
-      - name: set pass ubuntu for user ubuntu
-        user:
-          name: ubuntu
-          password: $6$IqPXCWT8$NRem4MazUQzB7UiIH8Smkm9.x8L7gZ/ALuAxyi3n/eCPnpEslWwUMb2BFn2Rva8jKmV0FRWIHXO8buYwQawub1
-        become: yes
 
-      - name: enable ssh password authentication
-        lineinfile:
-          path: /etc/ssh/sshd_config
-          regexp: '^PasswordAuthentication no'
-          line: 'PasswordAuthentication yes'
-        become: yes
-        notify: sshd restart
 
       - name: Install saltstack
         apt: name={{ item }} state=present update_cache=yes
@@ -151,11 +139,5 @@
       - name: restart salt-minion
         service:
           name: salt-minion
-          state: restarted
-        become: yes
-
-      - name: sshd restart
-        service:
-          name: ssh
           state: restarted
         become: yes
