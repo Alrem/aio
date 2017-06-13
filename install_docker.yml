@@ -21,7 +21,7 @@
         become: yes
 
       - name: Add the Docker repository to APT sources
-        apt_repository: 
+        apt_repository:
           repo: 'deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable'
           state: present
         become: yes
@@ -37,5 +37,7 @@
 
     handlers:
       - name: Restart Docker
-        systemd: state=restarted name=docker
+        service:
+          name: docker
+          state: restarted
         become: yes

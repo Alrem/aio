@@ -16,15 +16,15 @@
         become: yes
 
       - name: Add ipv4 resolve
-        lineinfile: 
+        lineinfile:
           line: "127.0.0.1 mcp all01"
           dest: /etc/hosts
           state: present
           backup: yes
         become: yes
-          
+
       - name: Add ipv6 resolve
-        lineinfile: 
+        lineinfile:
           line: "::1 all01"
           dest: /etc/hosts
           state: present
@@ -37,6 +37,24 @@
           state: present
         become: yes
 
+      - name: update software
+        apt: update_cache=yes upgrade=dist
+        become: yes
+
+      - name: set pass ubuntu for user ubuntu
+        user:
+          name: ubuntu
+          password: $6$IqPXCWT8$NRem4MazUQzB7UiIH8Smkm9.x8L7gZ/ALuAxyi3n/eCPnpEslWwUMb2BFn2Rva8jKmV0FRWIHXO8buYwQawub1
+        become: yes
+
+      - name: enable ssh password authentication
+        lineinfile:
+          path: /etc/ssh/sshd_config
+          regexp: '^PasswordAuthentication no'
+          line: 'PasswordAuthentication yes'
+        become: yes
+        notify: sshd restart
+
       - name: Install saltstack
         apt: name={{ item }} state=present update_cache=yes
         with_items:
@@ -45,7 +63,7 @@
           - reclass
           - make
         become: yes
-        notify: 
+        notify:
           - remove minion_id
           - remove minion_master
           - Add id info
@@ -72,7 +90,7 @@
         become: yes
 
       - name: Add id info
-        lineinfile: 
+        lineinfile:
           line: "id: all01.local"
           dest: /etc/salt/minion
           state: present
@@ -80,7 +98,7 @@
         become: yes
 
       - name: Add master info
-        lineinfile: 
+        lineinfile:
           line: "master: localhost"
           dest: /etc/salt/minion
           state: present
@@ -123,7 +141,7 @@
           group: root
           mode: 0644
         become: yes
-      
+
       - name: restart salt-master
         service:
           name: salt-master
@@ -133,5 +151,11 @@
       - name: restart salt-minion
         service:
           name: salt-minion
+          state: restarted
+        become: yes
+
+      - name: sshd restart
+        service:
+          name: ssh
           state: restarted
         become: yes
