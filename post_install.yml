@@ -61,6 +61,22 @@
         become: yes
         notify: sshd restart
 
+      - name: Download cirros
+        get_url:
+          url: http://download.cirros-cloud.net/0.3.5/cirros-0.3.5-x86_64-disk.img
+          dest: /root/cirros-0.3.5-x86_64-disk.img
+        become: yes
+
+      - name: upload check_os.sh
+        copy:
+          src: ./check_os.sh
+          dest: /root/check_os.sh
+          owner: root
+          group: root
+          mode: 0744
+        become: yes
+        notify: run check_os
+
     handlers:
 
       - name: sshd restart
@@ -81,4 +97,8 @@
           - neutron-openvswitch-agent
           - neutron-server
           - apache2
+        become: yes
+
+      - name: run check_os
+        command: /root/check_os.sh
         become: yes

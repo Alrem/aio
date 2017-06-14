@@ -15,7 +15,9 @@ glance image-create \
   --file cirros-0.3.5-x86_64-disk.img \
   --progress || exit 1
 
-openstack security rule create default --protocol icmp --remote-ip 0.0.0.0/0 || exit 1
+openstack security group rule create default /
+  --protocol icmp /
+  --remote-ip 0.0.0.0/0 || exit 1
 
 neutron net-create admin_internal || exit 1
 neutron subnet-create --name internal_subnet admin_internal 192.168.1.0/24 || exit 1
