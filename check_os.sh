@@ -24,7 +24,7 @@ neutron net-create admin_floating --provider:network_type flat --provider:physic
 neutron subnet-create --name floating_subnet --enable_dhcp=False --allocation-pool=start=10.18.0.100,end=10.18.0.200 --gateway=10.18.0.1 admin_floating 10.18.0.0/24
 neutron router-create Router04
 neutron router-gateway-set Router04 admin_floating
-neutron router-interface-add router1 admin_internal
+neutron router-interface-add Router04 admin_internal
 
 
 nova flavor-create m1.extra_tiny auto 256 0 1
