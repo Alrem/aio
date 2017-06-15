@@ -6,6 +6,7 @@ source /root/keystonercv3 || exit 1
 ifconfig ens3 0.0.0.0 || exit 1
 ovs-vsctl add-port br-floating ens3 || exit 1
 ifconfig br-floating 10.18.0.2/24 || exit 1
+ip route add default via 10.18.0.1 || exit 1
 
 glance image-create \
   --name cirros \
