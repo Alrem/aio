@@ -24,6 +24,7 @@ neutron net-create admin_internal || exit 1
 neutron subnet-create --name internal_subnet admin_internal 192.168.1.0/24 || exit 1
 
 neutron net-create admin_floating \
+  --shared \
   --provider:network_type flat \
   --provider:physical_network physnet1  \
   --router:external || exit 1

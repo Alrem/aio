@@ -6,131 +6,58 @@
     tasks:
 
       - name: state salt
-        command: salt-call --hard-crash state.apply salt
+        command: salt 'all01.local' state.apply salt
         become: yes
-        register: saltout
-
-      - name: debug-message for state salt
-        debug:
-          msg: "{{ saltout.stdout_lines[-7:] }}"
 
       - name: state linux,ntp,openssh
-        command: salt-call --hard-crash state.apply linux,ntp,openssh
+        command: salt 'all01.local' state.apply linux,ntp,openssh
         become: yes
-        register: saltout
-
-      - name: debug-message for state linux,ntp,openssh
-        debug:
-          msg: "{{ saltout.stdout_lines[-7:] }}"
 
       - name: state memcached
-        command: salt-call --hard-crash state.apply memcached
+        command: salt 'all01.local' state.apply memcached
         become: yes
-        register: saltout
-
-      - name: debug-message for state memcached
-        debug:
-          msg: "{{ saltout.stdout_lines[-7:] }}"
 
       - name: state rabbitmq
-        command: salt-call --hard-crash state.apply rabbitmq
+        command: salt 'all01.local' state.apply rabbitmq
         become: yes
-        register: saltout
-
-      - name: debug-message for state rabbitmq
-        debug:
-          msg: "{{ saltout.stdout_lines[-7:] }}"
 
       - name: state mysql
-        command: salt-call --hard-crash state.apply mysql
-        become: yes
-        register: saltout
-
-      - name: debug-message for state mysql
-        debug:
-          msg: "{{ saltout.stdout_lines[-7:] }}"
-
-      - name: state keystone 1
-        command: salt-call --hard-crash state.apply keystone
+        command: salt 'all01.local' state.apply mysql
         become: yes
 
-      - name: state keystone 2
-        command: salt-call --hard-crash state.apply keystone
+      - name: state keystone
+        command: salt 'all01.local' state.apply keystone
         become: yes
-        register: saltout
-
-      - name: debug-message for state keystone
-        debug:
-          msg: "{{ saltout.stdout_lines[-7:] }}"
 
       - name: state glance
-        command: salt-call --hard-crash state.apply glance
-        become: yes
-        register: saltout
-
-      - name: debug-message for state glance
-        debug:
-          msg: "{{ saltout.stdout_lines[-7:] }}"
-
-      - name: state neutron 1
-        command: salt-call --hard-crash state.apply neutron
+        command: salt 'all01.local' state.apply glance
         become: yes
 
-      - name: state neutron 2
-        command: salt-call --hard-crash state.apply neutron
+      - name: state neutron
+        command: salt 'all01.local' state.apply neutron
         become: yes
-        register: saltout
-
-      - name: debug-message for state neutron
-        debug:
-          msg: "{{ saltout.stdout_lines[-7:] }}"
 
       - name: state nova.controller
-        command: salt-call --hard-crash state.apply nova.controller
+        command: salt 'all01.local' state.apply nova.controller
         become: yes
-        register: saltout
         notify: restart nova
-
-      - name: debug-message for state nova.controller
-        debug:
-          msg: "{{ saltout.stdout_lines[-7:] }}"
 
       - name: state nova.compute
-        command: salt-call --hard-crash state.apply nova.compute
+        command: salt 'all01.local' state.apply nova.compute
         become: yes
-        register: saltout
         notify: restart nova
 
-      - name: debug-message for state nova.compute
-        debug:
-          msg: "{{ saltout.stdout_lines[-7:] }}"
-
       - name: state cinder
-        command: salt-call --hard-crash state.apply cinder
+        command: salt 'all01.local' state.apply cinder
         become: yes
-        register: saltout
-
-      - name: debug-message for state cinder
-        debug:
-          msg: "{{ saltout.stdout_lines[-7:] }}"
 
       - name: state heat
-        command: salt-call --hard-crash state.apply heat
+        command: salt 'all01.local' state.apply heat
         become: yes
-        register: saltout
-
-      - name: debug-message for state heat
-        debug:
-          msg: "{{ saltout.stdout_lines[-7:] }}"
 
       - name: state horizon
-        command: salt-call --hard-crash state.apply horizon
-        register: result
+        command: salt 'all01.local' state.apply horizon
         become: yes
-
-      - name: debug-message for state horizon
-        debug:
-          msg: "{{ saltout.stdout_lines[-7:] }}"
 
     handlers:
 
@@ -148,5 +75,4 @@
           - nova-conductor
           - nova-novncproxy
           - nova-spicehtml5proxy
-
         become: yes
