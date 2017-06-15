@@ -12,7 +12,7 @@ glance image-create \
   --visibility public \
   --disk-format qcow2 \
   --container-format bare \
-  --file cirros-0.3.5-x86_64-disk.img \
+  --file /root/cirros-0.3.5-x86_64-disk.img \
   --progress || exit 1
 
 openstack security group rule create default /
