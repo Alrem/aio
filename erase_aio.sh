@@ -1,6 +1,5 @@
 #!/bin/bash
-sudo virsh destroy aio_mcp
-sudo virsh undefine aio_mcp
-sudo virsh net-destroy mcp_ext
-sudo virsh net-undefine mcp_ext
-
+virsh destroy aio_mcp
+virsh undefine aio_mcp
+virsh net-destroy mcp_ext
+virsh net-undefine mcp_ext
