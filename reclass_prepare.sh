@@ -1,6 +1,6 @@
 #!/bin/bash
 
-git clone https://github.com/andreyshestakov/mcp-aio /srv/salt/reclass
+git clone https://gerrit.mcp.mirantis.net/salt-models/mcp-virtual-aio /srv/salt/reclass
 cd /srv/salt/reclass
 git clone https://gerrit.mcp.mirantis.net/p/salt-models/reclass-system.git classes/system
 ln -s /usr/share/salt-formulas/reclass/service classes/service
