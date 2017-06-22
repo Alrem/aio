@@ -37,13 +37,8 @@
         command: salt 'all01.local' state.apply neutron
         become: yes
 
-      - name: state nova.controller
-        command: salt 'all01.local' state.apply nova.controller
-        become: yes
-        notify: restart nova
-
-      - name: state nova.compute
-        command: salt 'all01.local' state.apply nova.compute
+      - name: state nova
+        command: salt 'all01.local' state.apply nova
         become: yes
         notify: restart nova
 
