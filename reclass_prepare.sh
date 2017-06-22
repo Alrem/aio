@@ -1,9 +1,9 @@
 #!/bin/bash
 
-git clone https://github.com/andreyshestakov/mcp-aio /srv/salt/reclass
-cd /srv/salt/reclass
-git clone https://gerrit.mcp.mirantis.net/p/salt-models/reclass-system.git classes/system
-ln -s /usr/share/salt-formulas/reclass/service classes/service
+git clone https://gerrit.mcp.mirantis.net/p/salt-models/mcp-virtual-aio.git /srv/salt/reclass || exit 1
+cd /srv/salt/reclass || exit 1
+git clone https://gerrit.mcp.mirantis.net/p/salt-models/reclass-system.git classes/system || exit 1
+ln -s /usr/share/salt-formulas/reclass/service classes/service || exit 1
 
 export FORMULAS_BASE=https://gerrit.mcp.mirantis.net/salt-formulas
 export FORMULAS_PATH=/root/formulas
