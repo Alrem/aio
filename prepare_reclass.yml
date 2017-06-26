@@ -3,19 +3,74 @@
   - name: Prepare reclass
     hosts: aio
     gather_facts: no
+    become: yes
+    vars:
+      formula_repo: https://gerrit.mcp.mirantis.net/salt-formulas/
+      formula_service:
+        - "linux"
+        - "reclass"
+        - "salt"
+        - "openssh"
+        - "ntp"
+        - "git"
+        - "nginx"
+        - "collectd"
+        - "sensu"
+        - "heka"
+        - "sphinx"
+        - "mysql"
+        - "grafana"
+        - "libvirt"
+        - "rsyslog"
+        - "memcached"
+        - "rabbitmq"
+        - "apache"
+        - "keystone"
+        - "glance"
+        - "nova"
+        - "neutron"
+        - "cinder"
+        - "heat"
+        - "horizon"
+
     tasks:
 
-      - name: upload reclass_prepare.sh
-        copy:
-          src: ./reclass_prepare.sh
-          dest: /root/reclass_prepare.sh
-          owner: root
-          group: root
-          mode: 0744
-        become: yes
-        notify: run reclass_prepare.sh
+      - name: upload reclass-model
+        git:
+          repo: https://gerrit.mcp.mirantis.net/p/salt-models/mcp-virtual-aio.git
+          dest: /srv/salt/reclass
+
+      - name: upload reclass-system
+        git:
+          repo: https://gerrit.mcp.mirantis.net/p/salt-models/reclass-system.git
+          dest: /srv/salt/reclass/classes/system
+
+      - name: Create folder for formulas
+        file:
+          path: /root/formulas
+          state: directory
+          mode: 0755
+
+      - name: Upload salt-formulas
+        git:
+          repo: https://gerrit.mcp.mirantis.net/salt-formulas/{{ item }}.git
+          dest: /root/formulas/{{ item }}
+        with_items:
+          - "{{ formula_service }}"
+        notify:
+          - Run make install
+          - upload reclass-service
 
     handlers:
-      - name: run reclass_prepare.sh
-        command: /root/reclass_prepare.sh
-        become: yes
+      - name: Run make install
+        command: /usr/bin/make install -C /root/formulas/{{ item }}
+        with_items:
+          - "{{ formula_service }}"
+
+      - name: upload reclass-service
+        file:
+          src: /usr/share/salt-formulas/reclass/service
+          dest: /srv/salt/reclass/classes/service
+          owner: root
+          group: root
+          state: link

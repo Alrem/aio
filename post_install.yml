@@ -2,13 +2,13 @@
   - name: Post install settings
     hosts: aio
     gather_facts: no
+    become: yes
     tasks:
 
       - name: Download cirros
         get_url:
           url: http://download.cirros-cloud.net/0.3.5/cirros-0.3.5-x86_64-disk.img
           dest: /root/cirros-0.3.5-x86_64-disk.img
-        become: yes
 
       - name: upload check_os.sh
         copy:
@@ -17,11 +17,9 @@
           owner: root
           group: root
           mode: 0744
-        become: yes
         notify: run check_os
 
     handlers:
 
       - name: run check_os
         command: /root/check_os.sh
-        become: yes

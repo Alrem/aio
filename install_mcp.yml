@@ -3,56 +3,45 @@
   - name: Install MCP
     hosts: aio
     gather_facts: no
+    become: yes
     tasks:
 
       - name: state salt
         command: salt 'all01.local' state.apply salt
-        become: yes
 
       - name: state linux,ntp,openssh
         command: salt 'all01.local' state.apply linux,ntp,openssh
-        become: yes
 
       - name: state memcached
         command: salt 'all01.local' state.apply memcached
-        become: yes
 
       - name: state rabbitmq
         command: salt 'all01.local' state.apply rabbitmq
-        become: yes
 
       - name: state mysql
         command: salt 'all01.local' state.apply mysql
-        become: yes
 
       - name: state keystone
         command: salt 'all01.local' state.apply keystone
-        become: yes
 
       - name: state glance
         command: salt 'all01.local' state.apply glance
-        become: yes
 
       - name: state neutron
         command: salt 'all01.local' state.apply neutron
-        become: yes
 
       - name: state nova
         command: salt 'all01.local' state.apply nova
-        become: yes
         notify: restart nova
 
       - name: state cinder
         command: salt 'all01.local' state.apply cinder
-        become: yes
 
       - name: state heat
         command: salt 'all01.local' state.apply heat
-        become: yes
 
       - name: state horizon
         command: salt 'all01.local' state.apply horizon
-        become: yes
 
     handlers:
 
@@ -70,4 +59,3 @@
           - nova-conductor
           - nova-novncproxy
           - nova-spicehtml5proxy
-        become: yes
