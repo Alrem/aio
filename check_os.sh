@@ -47,7 +47,9 @@ nova boot \
   test || exit 1
 
 cinder create --name test 1 || exit 1
-sleep 15 #Time for building
-nova volume-attach test `cinder list | grep test | awk ' { print $2 } '`  || exit 1
+
+## Temporary disable
+# sleep 15 #Time for building
+# nova volume-attach test `cinder list | grep test | awk ' { print $2 } '`  || exit 1
 
 
