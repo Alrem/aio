@@ -5,15 +5,6 @@
     become: yes
     tasks:
 
-      - name: Add extra packages
-        apt:
-          name: "{{ item }}"
-          state: present
-          update_cache: yes
-        with_items:
-          - apt-transport-https
-          - ca-certificates
-
       - name:  Add the GPG key for the official Docker repository
         apt_key:
           url: https://download.docker.com/linux/ubuntu/gpg
