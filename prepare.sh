@@ -5,7 +5,7 @@ chmod +x create-config-drive.sh
 
 test -a ./xenial-server-cloudimg-amd64-disk1.img || wget https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-disk1.img
 
-sudo ./create-config-drive.sh -k ~/.ssh/id_rsa.pub -h mcp /var/lib/libvirt/aio_mcp.iso 
+sudo ./create-config-drive.sh -k ~/.ssh/id_rsa.pub -h mcp /var/lib/libvirt/aio_mcp.iso
 sudo cp xenial-server-cloudimg-amd64-disk1.img /var/lib/libvirt/aio_mcp.img
 sudo qemu-img resize /var/lib/libvirt/aio_mcp.img 120G
 
