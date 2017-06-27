@@ -1,0 +1,23 @@
+---
+
+  - name: Get Tempest results
+    hosts: all
+    gather_facts: no
+    become: yes
+    tasks:
+
+      - name: Find reports
+        raw: 'ls -1 /root/report*'
+        register: report_files
+
+      - name: upload results
+        fetch:
+          src: "{{ item }}"
+          dest: ./
+        with_items: "{{ report_files.stdout_lines }}"
+        notify: delete reports
+
+    become:
+      - name: delete reports
+        command: rm -rf {{ item }}
+        with_items: "{{ report_files.stdout_lines }}"

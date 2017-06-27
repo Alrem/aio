@@ -1,0 +1,15 @@
+---
+
+  - name: Run docker Tempest container
+    hosts: all
+    gather_facts: no
+    become: yes
+    tasks:
+
+      - name: Run Tempest
+        command: docker run --rm --net=host -e SET='smoke' -v /root/:/home/rally sandriichenko/rally_tempest_docker:docker_aio
+        register: tempest_log
+
+      - name: Show simple tempest result
+        debug:
+          msg: "{{ tempest_log.stdout_lines[-20:] }}"
