@@ -17,7 +17,7 @@
         with_items: "{{ report_files.stdout_lines }}"
         notify: delete reports
 
-    become:
+    handlers:
       - name: delete reports
         command: rm -rf {{ item }}
         with_items: "{{ report_files.stdout_lines }}"
