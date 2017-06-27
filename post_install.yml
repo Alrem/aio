@@ -1,6 +1,6 @@
 ---
   - name: Post install settings
-    hosts: aio
+    hosts: all
     gather_facts: no
     become: yes
     tasks:
@@ -17,9 +17,18 @@
           owner: root
           group: root
           mode: 0744
-        notify: run check_os
+        notify:
+          - configure br-floating
+          - add masquerading
+          - run check_os
 
     handlers:
+
+      - name: configure br-floating
+        command: ifconfig br-floating 10.218.0.1/24
+
+      - name: add masquerading
+        command: iptables -t nat -A POSTROUTING -o ens3 -j MASQUERADE
 
       - name: run check_os
         command: /root/check_os.sh

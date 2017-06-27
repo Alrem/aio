@@ -1,6 +1,6 @@
 ---
 
-  - hosts: aio
+  - hosts: all
     gather_facts: False
     become: yes
     tasks:
