@@ -44,6 +44,12 @@
         command: salt 'all01.local' state.apply horizon
         notify: restart apache
 
+      - name: state bind
+        command: salt 'all01.local' state.apply bind
+
+      - name: state designate
+        command: salt 'all01.local' state.apply designate
+
     handlers:
 
       - name: restart nova
