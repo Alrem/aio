@@ -32,6 +32,9 @@
         - "cinder"
         - "heat"
         - "horizon"
+        - "bind"
+        - "powerdns"
+        - "designate"
 
     tasks:
 
