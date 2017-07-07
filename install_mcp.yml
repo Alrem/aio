@@ -7,48 +7,48 @@
     tasks:
 
       - name: state salt
-        command: salt 'all01.local' state.apply salt
+        command: salt-call state.apply salt
 
       - name: state linux,ntp,openssh
-        command: salt 'all01.local' state.apply linux,ntp,openssh
+        command: salt-call state.apply linux,ntp,openssh
 
       - name: state memcached
-        command: salt 'all01.local' state.apply memcached
+        command: salt-call state.apply memcached
 
       - name: state rabbitmq
-        command: salt 'all01.local' state.apply rabbitmq
+        command: salt-call state.apply rabbitmq
 
       - name: state mysql
-        command: salt 'all01.local' state.apply mysql
+        command: salt-call state.apply mysql
 
       - name: state keystone
-        command: salt 'all01.local' state.apply keystone
+        command: salt-call state.apply keystone
 
       - name: state glance
-        command: salt 'all01.local' state.apply glance
+        command: salt-call state.apply glance
 
       - name: state neutron
-        command: salt 'all01.local' state.apply neutron
+        command: salt-call state.apply neutron
 
       - name: state nova
-        command: salt 'all01.local' state.apply nova
+        command: salt-call state.apply nova
         notify: restart nova
 
       - name: state cinder
-        command: salt 'all01.local' state.apply cinder
+        command: salt-call state.apply cinder
 
       - name: state heat
-        command: salt 'all01.local' state.apply heat
+        command: salt-call state.apply heat
 
       - name: state horizon
-        command: salt 'all01.local' state.apply horizon
+        command: salt-call state.apply horizon
         notify: restart apache
 
       - name: state bind
-        command: salt 'all01.local' state.apply bind
+        command: salt-call state.apply bind
 
       - name: state designate
-        command: salt 'all01.local' state.apply designate
+        command: salt-call state.apply designate
 
     handlers:
 
