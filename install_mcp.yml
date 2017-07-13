@@ -6,6 +6,9 @@
     become: yes
     tasks:
 
+      - name: salt-call salt
+        command: salt-call state.apply salt
+
       - name: state salt
         command: salt 'all01.local' state.apply salt
 
