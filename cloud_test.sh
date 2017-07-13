@@ -11,6 +11,8 @@ test -d $VIRTUAL_ENV || virtualenv $VIRTUAL_ENV && sleep 3
 source cloud/oscore.rc
 source $VIRTUAL_ENV/bin/activate
 
+chmod g-rwx,o-rwx $KEY_FILE
+
 pip install -r cloud/requirements.txt --upgrade
 
 openstack --insecure server create \
