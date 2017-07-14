@@ -40,4 +40,4 @@ ansible-playbook get_results.yml -i "$IP, " \
   --user=$CLOUD_USER \
   --key-file=$KEY_FILE || exit 1
 
-openstack --insecure server delete $VENV_NAME
+test $ERASE_VENV && openstack --insecure server delete $VENV_NAME
