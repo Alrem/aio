@@ -40,13 +40,8 @@
 
       - name: upload reclass-model
         git:
-          repo: https://gerrit.mcp.mirantis.net/p/salt-models/mcp-virtual-aio.git
+          repo: https://gerrit.mcp.mirantis.net/salt-models/mcp-virtual-lab.git
           dest: /srv/salt/reclass
-
-      - name: upload reclass-system
-        git:
-          repo: https://gerrit.mcp.mirantis.net/p/salt-models/reclass-system.git
-          dest: /srv/salt/reclass/classes/system
 
       - name: Create folder for formulas
         file:
@@ -62,6 +57,7 @@
           - "{{ formula_service }}"
         notify:
           - Run make install
+          - create reclass-service folders
           - upload reclass-service
 
     handlers:
@@ -70,10 +66,22 @@
         with_items:
           - "{{ formula_service }}"
 
+      - name: create reclass-service folders
+        file:
+          path: /srv/salt/reclass/classes/service/{{ item }}
+          owner: root
+          group: root
+          state: directory
+        with_items:
+           - "{{ formula_service}}"          
+      
       - name: upload reclass-service
         file:
-          src: /usr/share/salt-formulas/reclass/service
-          dest: /srv/salt/reclass/classes/service
+          dest: /srv/salt/reclass/classes/service/{{ item }}
+          src: /usr/share/salt-formulas/reclass/service/{{ item }}
           owner: root
           group: root
           state: link
+          force: yes
+        with_items:
+           - "{{ formula_service}}"

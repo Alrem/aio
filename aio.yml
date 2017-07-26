@@ -2,6 +2,7 @@
 
   - include: prepare_saltstack.yml
   - include: prepare_reclass.yml
+  - include: install_saltmaster.yml
   - include: install_mcp.yml
   - include: post_install.yml
   - include: install_docker.yml

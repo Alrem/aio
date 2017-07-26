@@ -6,12 +6,6 @@
     become: yes
     tasks:
 
-      - name: state salt
-        command: salt-call state.apply salt
-
-      - name: state linux,ntp,openssh
-        command: salt-call state.apply linux,ntp,openssh
-
       - name: state memcached
         command: salt-call state.apply memcached
 
