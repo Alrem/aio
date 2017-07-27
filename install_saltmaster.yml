@@ -14,8 +14,9 @@
       
       - name: state 'salt.master'
         command: salt "cfg*" state.apply salt.master
-        notify: 
-          - create link to new env
+
+      - pause:
+          seconds: 15
 
       - name: salt reclass
         command: salt "cfg*" state.apply reclass
