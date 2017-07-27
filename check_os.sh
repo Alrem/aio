@@ -55,9 +55,9 @@ cinder create --name test 1 || exit 1
 # nova volume-attach test `cinder list | grep test | awk ' { print $2 } '`  || exit 1
 
 #Check DNS
-openstack dns service list
-openstack zone create --email dnsmaster@example.tld example.tld.
-openstack recordset create --records '10.0.0.1' --type A example.tld. www
-nslookup www.example.tld 127.0.0.1
+#openstack dns service list
+#openstack zone create --email dnsmaster@example.tld example.tld.
+#openstack recordset create --records '10.0.0.1' --type A example.tld. www
+#nslookup www.example.tld 127.0.0.1
 
 
