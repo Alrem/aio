@@ -5,7 +5,7 @@
     gather_facts: no
     become: yes
     tasks:
-
+    
       - name: state memcached
         command: salt "cfg*" state.apply memcached
 
