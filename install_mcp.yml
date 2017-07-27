@@ -7,42 +7,42 @@
     tasks:
 
       - name: state memcached
-        command: salt-call state.apply memcached
+        command: salt "cfg*" state.apply memcached
 
       - name: state rabbitmq
-        command: salt-call state.apply rabbitmq
+        command: salt "cfg*" state.apply rabbitmq
 
       - name: state mysql
-        command: salt-call state.apply mysql
+        command: salt "cfg*" state.apply mysql
 
       - name: state keystone
-        command: salt-call state.apply keystone
+        command: salt "cfg*" state.apply keystone
 
       - name: state glance
-        command: salt-call state.apply glance
+        command: salt "cfg*" state.apply glance
 
       - name: state neutron
-        command: salt-call state.apply neutron
+        command: salt "cfg*" state.apply neutron
 
       - name: state nova
-        command: salt-call state.apply nova
+        command: salt "cfg*" state.apply nova
         notify: restart nova
 
       - name: state cinder
-        command: salt-call state.apply cinder
+        command: salt "cfg*" state.apply cinder
 
       - name: state heat
-        command: salt-call state.apply heat
+        command: salt "cfg*" state.apply heat
 
       - name: state horizon
-        command: salt-call state.apply horizon
+        command: salt "cfg*" state.apply horizon
         notify: restart apache
 
       - name: state bind
-        command: salt-call state.apply bind
+        command: salt "cfg*" state.apply bind
 
       - name: state designate
-        command: salt-call state.apply designate
+        command: salt "cfg*" state.apply designate
 
     handlers:
 
